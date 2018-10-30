@@ -1,9 +1,9 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: pi-cron
+  name: node-cron
 spec:
-  schedule: "*/3 * * * *"
+  schedule: "*/1 * * * *"
   startingDeadlineSeconds: 20
   successfulJobsHistoryLimit: 5
   jobTemplate:
@@ -11,10 +11,10 @@ spec:
       completions: 2
       template:
         metadata:
-          name: pi
+          name: node
         spec:
           containers:
-          - name: pi
-            image: perl
-            command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(3000)"]
+          - name: node-cron
+            image: arun15/node-cron-demo:latest
+            command: ["node",  "index.js"]
           restartPolicy: Never
