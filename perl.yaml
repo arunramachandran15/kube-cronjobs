@@ -1,0 +1,20 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: pi-cron
+spec:
+  schedule: "*/1 * * * *"
+  startingDeadlineSeconds: 20
+  successfulJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      completions: 2
+      template:
+        metadata:
+          name: pi
+        spec:
+          containers:
+          - name: pi
+            image: perl
+            command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(3000)"]
+          restartPolicy: Never
